@@ -30,11 +30,7 @@ def test_translator_asm_and_machine(golden, caplog):
             machine.main(target, input_stream)
 
         data, code, start = read_machine_code(target)
-        result = {
-            "data": data,
-            "code": code,
-            "start": start
-        }
+        result = {"data": data, "code": code, "start": start}
 
         assert str(result) == golden.out["out_code"]
         assert stdout.getvalue() == golden.out["out_stdout"]

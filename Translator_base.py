@@ -1,4 +1,3 @@
-
 import re
 import struct
 import sys
@@ -25,9 +24,11 @@ class LineType(str, Enum):
     EMPTY = 4
     UNKNOWN = 5
 
+
 class Section(Enum):
     DATA = ".data"
     CODE = ".text"
+
 
 class Translator:
     def __init__(self):
@@ -141,7 +142,9 @@ class Translator:
             assert opcode in instructions, f"Command {opcode} does not exist"
             args = instructions[opcode]["args"]
             if len(command["args"]) != 0:
-                assert len(command["args"]) == args, f"Wrong number of arguments for instruction {opcode}: expected {args}"
+                assert (
+                    len(command["args"]) == args
+                ), f"Wrong number of arguments for instruction {opcode}: expected {args}"
             for i in range(len(command["args"])):
                 arg = command["args"][i]
                 a = re.sub(r"\[|#|\]", "", arg)
@@ -152,9 +155,13 @@ class Translator:
                 assert len(cross) != 0, f"Wrong argument for command {opcode}"
                 arg_type = cross.pop()
                 if arg_type == ArgType.CODE_LABEL:
-                    command["args"][i] = re.sub(a, hex(self.code_labels[a]), command["args"][i])
+                    command["args"][i] = re.sub(
+                        a, hex(self.code_labels[a]), command["args"][i]
+                    )
                 if arg_type == ArgType.DATA_LABEL:
-                    command["args"][i] = re.sub(a, hex(self.data_labels[a]), command["args"][i])
+                    command["args"][i] = re.sub(
+                        a, hex(self.data_labels[a]), command["args"][i]
+                    )
 
     def process_addressing(self, command, command_type: Opcode):
         args = command["args"]
@@ -175,7 +182,9 @@ class Translator:
         word_bytes[2] = result % 2**8
         result = result // 2**8
         word_bytes[1] += result
-        return struct.pack("BBBB", word_bytes[0], word_bytes[1], word_bytes[2], word_bytes[3])
+        return struct.pack(
+            "BBBB", word_bytes[0], word_bytes[1], word_bytes[2], word_bytes[3]
+        )
 
     def process_non_addressing(self, command, command_type: Opcode):
         args = command["args"]
@@ -194,7 +203,9 @@ class Translator:
         word_bytes[2] = result % 2**8
         result = result // 2**8
         word_bytes[1] += result
-        return struct.pack("BBBB", word_bytes[0], word_bytes[1], word_bytes[2], word_bytes[3])
+        return struct.pack(
+            "BBBB", word_bytes[0], word_bytes[1], word_bytes[2], word_bytes[3]
+        )
 
     def translate_stage_3(self):
         logging = ""
@@ -209,7 +220,12 @@ class Translator:
                 result = self.process_addressing(command, command_type)
             else:
                 result = self.process_non_addressing(command, command_type)
-            logging += instructions[command["opcode"]]["log"](address, result.hex(), command["args"]) + "\n"
+            logging += (
+                instructions[command["opcode"]]["log"](
+                    address, result.hex(), command["args"]
+                )
+                + "\n"
+            )
             binary += result
             address += 1
         binary += struct.pack(">I", int(self.start, 0))
@@ -228,7 +244,10 @@ def main(source, target):
     log, binary = t.translate(text)
     write_machine_code(target, binary, log)
 
+
 if __name__ == "__main__":
-    assert len(sys.argv) == 3, "Wrong arguments: Translator_base.py <input_file> <target_file>"
+    assert (
+        len(sys.argv) == 3
+    ), "Wrong arguments: Translator_base.py <input_file> <target_file>"
     _, source, target = sys.argv
     main(source, target)

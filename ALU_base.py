@@ -1,16 +1,12 @@
-
 class ALU:
     max = 2**31 - 1
-    min = -2**31
+    min = -(2**31)
+
     def __init__(self):
         self.left = 0
         self.right = 0
         self.result = 0
-        self.flags = {
-            "Z": False,
-            "N": False,
-            "W": False
-        }
+        self.flags = {"Z": False, "N": False, "W": False}
         self.operation = 0
         self.operations = {
             "add": self.add,
@@ -22,7 +18,7 @@ class ALU:
             "dec_left": self.dec_left,
             "dec_right": self.dec_right,
             "skip_left": self.skip_left,
-            "skip_right": self.skip_right
+            "skip_right": self.skip_right,
         }
 
     def add(self):

@@ -11,12 +11,7 @@ class ControlUnit:
         self.data_path = DataPath(data, in_buf)
         self.active = False
         self.int_address = 0
-        self.int_state = {
-            "Z": False,
-            "N": False,
-            "W": False,
-            "I": True
-        }
+        self.int_state = {"Z": False, "N": False, "W": False, "I": True}
 
     def signal_latch_ip(self):
         self.IP = self.data_path.alu.result
@@ -36,7 +31,7 @@ class ControlUnit:
         ps = "ps"
         r = "r"
         instr = self.CR
-        opcode = Opcode(int(instr[0: 8], 2))
+        opcode = Opcode(int(instr[0:8], 2))
         print("=====================================================================")
         print(f"| instruction: {opcode}")
         print(f"| DR = {self.data_path.hidden_registers[dr]}")
@@ -69,15 +64,14 @@ class ControlUnit:
         if not interruption:
             self.counter += 1
 
-
     def execute_addressed(self, opcode, instr):
-        arg1 = "r" + str(int(instr[10 : 21], 2))
+        arg1 = "r" + str(int(instr[10:21], 2))
         if instr[8] == "1":
-            arg2 = "r" + str(int(instr[21 : 32], 2))
+            arg2 = "r" + str(int(instr[21:32], 2))
             self.data_path.execute_alu("skip_left", arg2)
             self.data_path.signal_latch_ar()
         else:
-            arg2 = str(int(instr[21 : 32], 2))
+            arg2 = str(int(instr[21:32], 2))
             self.data_path.execute_alu("skip_right", "0", arg2)
             self.data_path.signal_latch_ar()
         if instr[9] == "1":
@@ -172,7 +166,7 @@ class ControlUnit:
         self.check_interruption()
 
     def execute_non_addressed(self, opcode, instr):
-        a1, a2, a3 = int(instr[11 : 18], 2), int(instr[18 : 25], 2), int(instr[25 : 32], 2)
+        a1, a2, a3 = int(instr[11:18], 2), int(instr[18:25], 2), int(instr[25:32], 2)
         arg1 = str(a1) if instr[8] == "0" else "r" + str(a1)
         arg2 = str(a2) if instr[9] == "0" else "r" + str(a2)
         arg3 = str(a3) if instr[10] == "0" else "r" + str(a3)
@@ -195,14 +189,16 @@ class ControlUnit:
                 self.data_path.pop("ip")
                 self.signal_latch_ip()
                 self.data_path.pop("ps")
-                self.data_path.hidden_registers["ps"] = self.data_path.hidden_registers["dr"]
+                self.data_path.hidden_registers["ps"] = self.data_path.hidden_registers[
+                    "dr"
+                ]
                 for i in range(len(self.data_path.registers) - 1, -1, -1):
                     self.data_path.pop("r" + str(i))
         self.check_interruption()
 
     def decode_and_execute(self):
         instr = self.CR
-        opcode = Opcode(int(instr[0: 8], 2))
+        opcode = Opcode(int(instr[0:8], 2))
         if opcode in [Opcode.LD, Opcode.ST]:
             self.execute_addressed(opcode, instr)
         else:

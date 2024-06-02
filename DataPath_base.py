@@ -13,6 +13,7 @@ class Selector(Enum):
     DR = 3
     REGISTER = 4
 
+
 class DataPath:
     def __init__(self, data, in_buf):
         self.registers = {"r" + str(i): 0 for i in range(32)}
@@ -20,12 +21,7 @@ class DataPath:
             "dr": 0,
             "ar": 0,
             "sp": 0,
-            "ps": {
-                "N": False,
-                "Z": False,
-                "W": False,
-                "I": False
-            }
+            "ps": {"N": False, "Z": False, "W": False, "I": False},
         }
         self.data_memory = data
         self.alu = ALU()
@@ -55,7 +51,9 @@ class DataPath:
 
     def push(self, arg):
         current_sp = self.hidden_registers["sp"]
-        self.hidden_registers["sp"] = current_sp - 1 if current_sp > 0 else len(self.data_memory) - 1
+        self.hidden_registers["sp"] = (
+            current_sp - 1 if current_sp > 0 else len(self.data_memory) - 1
+        )
         self.hidden_registers["ar"] = self.hidden_registers["sp"]
         self.execute_alu("skip_left", arg, "0")
         self.signal_latch_dr(Selector.ALU)
@@ -66,7 +64,9 @@ class DataPath:
         self.signal_latch_ar()
         self.mem_read()
         current_sp = self.hidden_registers["sp"]
-        self.hidden_registers["sp"] = current_sp + 1 if current_sp < len(self.data_memory) - 1 else 0
+        self.hidden_registers["sp"] = (
+            current_sp + 1 if current_sp < len(self.data_memory) - 1 else 0
+        )
         self.execute_alu("skip_right", "0", "dr")
         if arg in self.registers:
             self.signal_latch_register(arg)
@@ -86,7 +86,9 @@ class DataPath:
             case Selector.ALU:
                 self.hidden_registers["dr"] = self.alu.result
             case Selector.MEMORY:
-                self.hidden_registers["dr"] = self.data_memory[self.hidden_registers["ar"]]
+                self.hidden_registers["dr"] = self.data_memory[
+                    self.hidden_registers["ar"]
+                ]
             case Selector.INPUT:
                 self.hidden_registers["dr"] = self.in_buffer[self.current_in_port]
 
@@ -99,7 +101,7 @@ class DataPath:
     def right_mux_alu(self, value):
         self.alu.right = value
 
-    def configure_alu(self, left = 0, right = 0):
+    def configure_alu(self, left=0, right=0):
         self.left_mux_alu(left)
         self.right_mux_alu(right)
 
@@ -138,5 +140,3 @@ class DataPath:
         self.hidden_registers["ps"]["Z"] = self.alu.flags["Z"]
         self.hidden_registers["ps"]["N"] = self.alu.flags["N"]
         self.hidden_registers["ps"]["W"] = self.alu.flags["W"]
-
-
