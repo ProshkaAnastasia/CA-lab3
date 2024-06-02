@@ -60,7 +60,7 @@ class ALU:
     def inc_right(self):
         self.result = self.right + 1
         self.set_flags()
-    
+
     def dec_left(self):
         self.result = self.left - 1
         self.set_flags()

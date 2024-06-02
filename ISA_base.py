@@ -1,7 +1,7 @@
+from __future__ import annotations
 
-from enum import Enum
-import json
 import struct
+from enum import Enum
 
 DATA_SIZE = 2**11
 CODE_SIZE = 2**7
@@ -32,15 +32,33 @@ class Addressing(Enum):
     ABSOLUTE = 0
     RELATIVE = 1
 
-registers: list[str] = [f"r{i}" for i in range(32)] 
+registers: list[str] = [f"r{i}" for i in range(32)]
+
+def check_reg(arg):
+    return arg in registers
+
+def check_code_label(arg, labels):
+    return arg in labels
+
+def check_data_label(arg, labels):
+    return arg in labels
+
+def check_code_address(arg, size):
+    return arg in range(size)
+
+def check_data_address(arg, size):
+    return arg in range(size)
+
+def check_constant(arg):
+    return arg.isdigit()
 
 class ArgType (str, Enum):
-    REGISTER = lambda arg: arg in registers
-    CODE_LABEL = lambda arg, labels: arg in labels
-    DATA_LABEL = lambda arg, labels: arg in labels
-    CODE_ADDRESS = lambda arg, code_size: arg in range(code_size)
-    DATA_ADDRESS = lambda arg, data_size: arg in range(data_size)
-    CONSTANT = lambda arg: arg.isdigit()
+    REGISTER = check_reg #lambda arg: arg in registers
+    CODE_LABEL = check_code_label #lambda arg, labels: arg in labels
+    DATA_LABEL = check_data_label #lambda arg, labels: arg in labels
+    CODE_ADDRESS = check_code_address #lambda arg, code_size: arg in range(code_size)
+    DATA_ADDRESS = check_data_address #lambda arg, data_size: arg in range(data_size)
+    CONSTANT = check_constant #lambda arg: arg.isdigit()
     def __str__(self):
         return self.type
 
@@ -190,24 +208,24 @@ instructions = {
 }
 
 def read_machine_code(filetype):
-    with open(filetype + ".o", 'rb') as file:
-        data_size = struct.unpack('>I', file.read(4))[0]
-        code_size = struct.unpack('>I', file.read(4))[0]
+    with open(filetype + ".o", "rb") as file:
+        data_size = struct.unpack(">I", file.read(4))[0]
+        code_size = struct.unpack(">I", file.read(4))[0]
         data = [0] * DATA_SIZE
-        code = ['0' * 32] * CODE_SIZE
+        code = ["0" * 32] * CODE_SIZE
         for i in range(data_size):
-            data[i] = struct.unpack('>I', file.read(4))[0]
+            data[i] = struct.unpack(">I", file.read(4))[0]
         for i in range(code_size):
             command = file.read(4)
             word = ""
             for byte in command:
                 word += bin(byte)[2:].zfill(8)
             code[i] = word
-        start = struct.unpack('>I', file.read(4))[0]
+        start = struct.unpack(">I", file.read(4))[0]
     return data, code, start
 
 def write_machine_code(filetype, code, log):
-    with open(filetype + ".o", 'wb') as file:
+    with open(filetype + ".o", "wb") as file:
         file.write(code)
-    with open(filetype + ".txt", 'w') as file:
+    with open(filetype + ".txt", "w") as file:
         file.write(log)

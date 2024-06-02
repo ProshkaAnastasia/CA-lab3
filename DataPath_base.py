@@ -1,6 +1,10 @@
 from enum import Enum
+
 from ALU_base import ALU
 from ISA_base import registers
+from WrongRegisterError import WrongRegisterError
+from WrongSelectorError import WrongSelectorError
+
 
 class Selector(Enum):
     ALU = 0
@@ -53,31 +57,31 @@ class DataPath:
         current_sp = self.hidden_registers["sp"]
         self.hidden_registers["sp"] = current_sp - 1 if current_sp > 0 else len(self.data_memory) - 1
         self.hidden_registers["ar"] = self.hidden_registers["sp"]
-        self.execute_ALU("skip_left", arg, "0")
+        self.execute_alu("skip_left", arg, "0")
         self.signal_latch_dr(Selector.ALU)
         self.mem_write()
 
     def pop(self, arg):
-        self.execute_ALU("skip_right", "0", "sp")
+        self.execute_alu("skip_right", "0", "sp")
         self.signal_latch_ar()
         self.mem_read()
         current_sp = self.hidden_registers["sp"]
         self.hidden_registers["sp"] = current_sp + 1 if current_sp < len(self.data_memory) - 1 else 0
-        self.execute_ALU("skip_right", "0", "dr")
+        self.execute_alu("skip_right", "0", "dr")
         if arg in self.registers:
             self.signal_latch_register(arg)
 
     def signal_latch_sp(self):
         self.hidden_registers["sp"] = self.alu.result
-    
+
     def signal_latch_register(self, target: str):
-        if not target in registers:
-            raise Exception(f"Wrong register {target}")
+        if target not in registers:
+            raise WrongRegisterError(target)
         self.registers[target] = self.alu.result
 
     def signal_latch_dr(self, sel):
-        if not sel in [Selector.ALU, Selector.MEMORY, Selector.INPUT]:
-            raise Exception("Wrong selector for DR")
+        if sel not in [Selector.ALU, Selector.MEMORY, Selector.INPUT]:
+            raise WrongSelectorError()
         match sel:
             case Selector.ALU:
                 self.hidden_registers["dr"] = self.alu.result
@@ -89,45 +93,45 @@ class DataPath:
     def signal_latch_ar(self):
         self.hidden_registers["ar"] = self.alu.result
 
-    def left_mux_ALU(self, value):
+    def left_mux_alu(self, value):
         self.alu.left = value
 
-    def right_mux_ALU(self, value):
+    def right_mux_alu(self, value):
         self.alu.right = value
 
-    def configure_ALU(self, left = 0, right = 0):
-        self.left_mux_ALU(left)
-        self.right_mux_ALU(right)
+    def configure_alu(self, left = 0, right = 0):
+        self.left_mux_alu(left)
+        self.right_mux_alu(right)
 
     def is_number_argument(self, arg: str):
         if arg.isdigit():
             return self.alu.min <= int(arg) and int(arg) <= self.alu.max
-        else:
-            return False
-    def setup_ALU(self, left: str, right: str):
-        if left in self.registers:
-            self.left_mux_ALU(self.registers[left])
-        elif left in self.hidden_registers:
-            self.left_mux_ALU(self.hidden_registers[left])
-        elif self.is_number_argument(left):
-            self.left_mux_ALU(int(left))
-        else:
-            self.left_mux_ALU(0)
-        if right in self.registers:
-            self.right_mux_ALU(self.registers[right])
-        elif right in self.hidden_registers:
-            self.right_mux_ALU(self.hidden_registers[right])
-        elif self.is_number_argument(right):
-            self.right_mux_ALU(int(right))
-        else:
-            self.right_mux_ALU(0)
+        return False
 
-    def execute_ALU(self, operation, left: str = "0", right: str = "0"):
-        self.setup_ALU(left, right)
+    def setup_alu(self, left: str, right: str):
+        if left in self.registers:
+            self.left_mux_alu(self.registers[left])
+        elif left in self.hidden_registers:
+            self.left_mux_alu(self.hidden_registers[left])
+        elif self.is_number_argument(left):
+            self.left_mux_alu(int(left))
+        else:
+            self.left_mux_alu(0)
+        if right in self.registers:
+            self.right_mux_alu(self.registers[right])
+        elif right in self.hidden_registers:
+            self.right_mux_alu(self.hidden_registers[right])
+        elif self.is_number_argument(right):
+            self.right_mux_alu(int(right))
+        else:
+            self.right_mux_alu(0)
+
+    def execute_alu(self, operation, left: str = "0", right: str = "0"):
+        self.setup_alu(left, right)
         self.alu.execute(operation)
 
-    def exec_ALU(self, operation, left, right):
-        self.configure_ALU(left, right)
+    def exec_alu(self, operation, left, right):
+        self.configure_alu(left, right)
         self.alu.execute(operation)
 
     def signal_latch_ps(self):

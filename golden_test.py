@@ -4,11 +4,11 @@ import logging
 import os
 import tempfile
 
-from ISA_base import read_machine_code
 import pytest
 
 import Machine_base as machine
 import Translator_base as translator
+from ISA_base import read_machine_code
 
 
 @pytest.mark.golden_test("golden_tests/*.yml")

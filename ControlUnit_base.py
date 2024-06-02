@@ -1,6 +1,7 @@
 from DataPath_base import DataPath, Selector
 from ISA_base import Opcode
 
+
 class ControlUnit:
     def __init__(self, data, code, in_buf, start):
         self.counter = 0
@@ -63,7 +64,7 @@ class ControlUnit:
                 self.data_path.current_in_port = port
                 self.interrupt()
                 return
-        self.data_path.execute_ALU("inc_right", "0", str(self.IP))
+        self.data_path.execute_alu("inc_right", "0", str(self.IP))
         self.signal_latch_ip()
         if not interruption:
             self.counter += 1
@@ -73,24 +74,24 @@ class ControlUnit:
         arg1 = "r" + str(int(instr[10 : 21], 2))
         if instr[8] == "1":
             arg2 = "r" + str(int(instr[21 : 32], 2))
-            self.data_path.execute_ALU("skip_left", arg2)
+            self.data_path.execute_alu("skip_left", arg2)
             self.data_path.signal_latch_ar()
         else:
             arg2 = str(int(instr[21 : 32], 2))
-            self.data_path.execute_ALU("skip_right", "0", arg2)
+            self.data_path.execute_alu("skip_right", "0", arg2)
             self.data_path.signal_latch_ar()
         if instr[9] == "1":
             self.data_path.signal_latch_dr(Selector.MEMORY)
-            self.data_path.execute_ALU("skip_right", "0", "dr")
+            self.data_path.execute_alu("skip_right", "0", "dr")
             self.data_path.signal_latch_ar()
         match opcode:
             case Opcode.ST:
-                self.data_path.execute_ALU("skip_left", arg1)
+                self.data_path.execute_alu("skip_left", arg1)
                 self.data_path.signal_latch_dr(Selector.ALU)
                 self.data_path.mem_write()
             case Opcode.LD:
                 self.data_path.mem_read()
-                self.data_path.execute_ALU("skip_right", "0", "dr")
+                self.data_path.execute_alu("skip_right", "0", "dr")
                 self.data_path.signal_latch_register(arg1)
         self.data_path.signal_latch_ps()
         self.check_interruption()
@@ -99,16 +100,16 @@ class ControlUnit:
         match opcode:
             case Opcode.BEQ:
                 if self.data_path.hidden_registers["ps"]["Z"]:
-                    self.data_path.execute_ALU("skip_right", "0", arg)
+                    self.data_path.execute_alu("skip_right", "0", arg)
                     self.signal_latch_ip()
                     return
             case Opcode.BNE:
                 if not self.data_path.hidden_registers["ps"]["Z"]:
-                    self.data_path.execute_ALU("skip_right", "0", arg)
+                    self.data_path.execute_alu("skip_right", "0", arg)
                     self.signal_latch_ip()
                     return
             case Opcode.JMP:
-                self.data_path.execute_ALU("skip_right", "0", arg)
+                self.data_path.execute_alu("skip_right", "0", arg)
                 self.signal_latch_ip()
                 return
         self.check_interruption()
@@ -116,10 +117,10 @@ class ControlUnit:
     def execute_unary_instruction(self, opcode, arg):
         match opcode:
             case Opcode.INC:
-                self.data_path.execute_ALU("inc_left", arg)
+                self.data_path.execute_alu("inc_left", arg)
                 self.data_path.signal_latch_ps()
             case Opcode.DEC:
-                self.data_path.execute_ALU("dec_left", arg)
+                self.data_path.execute_alu("dec_left", arg)
                 self.data_path.signal_latch_ps()
             case Opcode.PUSH:
                 self.data_path.push(arg)
@@ -133,27 +134,27 @@ class ControlUnit:
     def execute_binary_instruction(self, opcode, args):
         match opcode:
             case Opcode.ADD:
-                self.data_path.execute_ALU("skip_left", args[2])
+                self.data_path.execute_alu("skip_left", args[2])
                 self.data_path.signal_latch_dr(Selector.ALU)
-                self.data_path.execute_ALU("add", args[1], args[2])
+                self.data_path.execute_alu("add", args[1], args[2])
                 self.data_path.signal_latch_ps()
                 self.data_path.signal_latch_register(args[0])
             case Opcode.MOV:
-                self.data_path.execute_ALU("skip_left", args[1], "0")
+                self.data_path.execute_alu("skip_left", args[1], "0")
                 self.data_path.signal_latch_register(args[0])
             case Opcode.CMP:
-                self.data_path.execute_ALU("sub", args[0], args[1])
+                self.data_path.execute_alu("sub", args[0], args[1])
                 self.data_path.signal_latch_ps()
             case Opcode.MOD:
-                self.data_path.execute_ALU("skip_left", args[2])
+                self.data_path.execute_alu("skip_left", args[2])
                 self.data_path.signal_latch_dr(Selector.ALU)
-                self.data_path.execute_ALU("mod", args[1], "dr")
+                self.data_path.execute_alu("mod", args[1], "dr")
                 self.data_path.signal_latch_ps()
                 self.data_path.signal_latch_register(args[0])
             case Opcode.DIV:
-                self.data_path.execute_ALU("skip_left", args[2])
+                self.data_path.execute_alu("skip_left", args[2])
                 self.data_path.signal_latch_dr(Selector.ALU)
-                self.data_path.execute_ALU("div", args[1], "dr")
+                self.data_path.execute_alu("div", args[1], "dr")
                 self.data_path.signal_latch_ps()
                 self.data_path.signal_latch_register(args[0])
         self.check_interruption()
@@ -162,10 +163,10 @@ class ControlUnit:
         match opcode:
             case Opcode.IN:
                 self.data_path.input(int(args[1]))
-                self.data_path.execute_ALU("skip_right", "0", "dr")
+                self.data_path.execute_alu("skip_right", "0", "dr")
                 self.data_path.signal_latch_register(args[0])
             case Opcode.OUT:
-                self.data_path.execute_ALU("skip_left", args[0], "0")
+                self.data_path.execute_alu("skip_left", args[0], "0")
                 self.data_path.signal_latch_dr(Selector.ALU)
                 self.data_path.output(int(args[1]))
         self.check_interruption()
