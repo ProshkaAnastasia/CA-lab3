@@ -355,4 +355,12 @@ hlt                 ; останов
 
 <h2 id="модель-процессора">Модель процессора</h2>
 
+#### ControlUnit
+
+![Control Unit](images/control_unit.png)
+
+#### DataPath
+
+![Data Path](resources/data_path.png)
+
 <h2 id="тестирование">Тестирование</h2>
