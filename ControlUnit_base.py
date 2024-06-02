@@ -125,6 +125,8 @@ class ControlUnit:
                 self.data_path.push(arg)
             case Opcode.POP:
                 self.data_path.pop(arg)
+            case Opcode.PRINTI:
+                self.data_path.print(arg)
         self.data_path.signal_latch_register(arg)
         self.check_interruption()
 
@@ -142,6 +144,18 @@ class ControlUnit:
             case Opcode.CMP:
                 self.data_path.execute_ALU("sub", args[0], args[1])
                 self.data_path.signal_latch_ps()
+            case Opcode.MOD:
+                self.data_path.execute_ALU("skip_left", args[2])
+                self.data_path.signal_latch_dr(Selector.ALU)
+                self.data_path.execute_ALU("mod", args[1], "dr")
+                self.data_path.signal_latch_ps()
+                self.data_path.signal_latch_register(args[0])
+            case Opcode.DIV:
+                self.data_path.execute_ALU("skip_left", args[2])
+                self.data_path.signal_latch_dr(Selector.ALU)
+                self.data_path.execute_ALU("div", args[1], "dr")
+                self.data_path.signal_latch_ps()
+                self.data_path.signal_latch_register(args[0])
         self.check_interruption()
 
     def execute_io_instruction(self, opcode, args):
@@ -163,9 +177,9 @@ class ControlUnit:
         arg3 = str(a3) if instr[10] == "0" else "r" + str(a3)
         if opcode in [Opcode.BEQ, Opcode.BNE, Opcode.JMP]:
             self.execute_branch_instruction(opcode, arg1)
-        elif opcode in [Opcode.DEC, Opcode.INC]:
+        elif opcode in [Opcode.DEC, Opcode.INC, Opcode.PRINTI]:
             self.execute_unary_instruction(opcode, arg1)
-        elif opcode in [Opcode.ADD, Opcode.MOV, Opcode.CMP]:
+        elif opcode in [Opcode.ADD, Opcode.MOV, Opcode.CMP, Opcode.MOD, Opcode.DIV]:
             self.execute_binary_instruction(opcode, [arg1, arg2, arg3])
         elif opcode in [Opcode.IN, Opcode.OUT]:
             self.execute_io_instruction(opcode, [arg1, arg2])
@@ -192,5 +206,3 @@ class ControlUnit:
             self.execute_addressed(opcode, instr)
         else:
             self.execute_non_addressed(opcode, instr)
-        self.print_state()
-

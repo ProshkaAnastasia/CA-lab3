@@ -24,6 +24,9 @@ class Opcode(Enum):
     POP = 14
     INT = 15
     IRET = 17
+    MOD = 18
+    DIV = 19
+    PRINTI = 20
 
 class Addressing(Enum):
     ABSOLUTE = 0
@@ -77,6 +80,22 @@ instructions = {
         "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- add: {args[0]} <- {args[1]} + {args[2]}"
 
     },
+    "mod": {
+        "type": Opcode.MOD,
+        "args": 3,
+        "arg1": [ArgType.REGISTER],
+        "arg2": [ArgType.REGISTER, ArgType.CONSTANT],
+        "arg3": [ArgType.REGISTER, ArgType.CONSTANT],
+        "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- mod: {args[0]} <- {args[1]} % {args[2]}"
+    },
+    "div": {
+        "type": Opcode.DIV,
+        "args": 3,
+        "arg1": [ArgType.REGISTER],
+        "arg2": [ArgType.REGISTER, ArgType.CONSTANT],
+        "arg3": [ArgType.REGISTER, ArgType.CONSTANT],
+        "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- div: {args[0]} <- {args[1]} // {args[2]}"
+    },
     "inc": {
         "type": Opcode.INC,
         "args": 1,
@@ -114,6 +133,12 @@ instructions = {
         "arg1": [ArgType.REGISTER],
         "arg2": [ArgType.CONSTANT],
         "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- in:  {args[0]} input {int(args[1], 0)}"
+    },
+    "printi": {
+        "type": Opcode.PRINTI,
+        "args": 1,
+        "arg1": [ArgType.REGISTER],
+        "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- print int {args[0]}"
     },
     "hlt": {
         "type": Opcode.HLT,
@@ -186,5 +211,3 @@ def write_machine_code(filetype, code, log):
         file.write(code)
     with open(filetype + ".txt", 'w') as file:
         file.write(log)
-
-read_machine_code("./text/machine/hello")

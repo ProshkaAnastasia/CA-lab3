@@ -14,6 +14,9 @@ class ALU:
         self.operation = 0
         self.operations = {
             "add": self.add,
+            "sub": self.sub,
+            "mod": self.mod,
+            "div": self.div,
             "inc_left": self.inc_left,
             "inc_right": self.inc_right,
             "dec_left": self.dec_left,
@@ -30,6 +33,24 @@ class ALU:
         if self.result < self.min:
             self.result = self.max + 1 - abs(self.result - self.min)
             self.flags["W"] = 1
+        self.set_flags()
+
+    def sub(self):
+        self.result = self.left - self.right
+        if self.result > self.max:
+            self.result = self.min + self.result % self.max
+            self.flags["W"] = 1
+        if self.result < self.min:
+            self.result = self.max + 1 - abs(self.result - self.min)
+            self.flags["W"] = 1
+        self.set_flags()
+
+    def mod(self):
+        self.result = self.left % self.right
+        self.set_flags()
+
+    def div(self):
+        self.result = self.left // self.right
         self.set_flags()
 
     def inc_left(self):

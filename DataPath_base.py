@@ -44,6 +44,11 @@ class DataPath:
     def output(self, port):
         self.out_buffer[port].append(chr(self.hidden_registers["dr"]))
 
+    def print(self, arg):
+        num = str(self.registers[arg])
+        for i in range(len(num)):
+            self.out_buffer[0].append(num[i])
+
     def push(self, arg):
         current_sp = self.hidden_registers["sp"]
         self.hidden_registers["sp"] = current_sp - 1 if current_sp > 0 else len(self.data_memory) - 1

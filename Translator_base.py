@@ -3,6 +3,7 @@ from enum import Enum
 import json
 import re
 import struct
+import sys
 from ISA_base import CODE_SIZE, DATA_SIZE, Addressing, ArgType, Opcode, instructions, registers, write_machine_code
 
 class LineType(str, Enum):
@@ -216,21 +217,10 @@ def main(source, target):
         text = file.read()
     log, binary = t.translate(text)
     write_machine_code(target, binary, log)
-    with open(target, 'wb') as file:
-        text = file.write(binary)
-
-    ##data, code, start = t.translate(text)
-    ##result = {
-        ##"data": data,
-        ##"code": code,
-        ##"start": start
-    ##}
-    ##print(json.dumps(result, indent = 4))
-    ##write_machine_code(target, result)
 
 if __name__ == "__main__":
-    ##assert len(sys.argv) == 3, "Wrong arguments: translator_asm.py <input_file> <target_file>"
-    ##_, source, target = sys.argv
-    source = "./text/code/hello_user_name.txt"
-    target = "./text/machine/hello_user_name"
+    assert len(sys.argv) == 3, "Wrong arguments: Translator_base.py <input_file> <target_file>"
+    _, source, target = sys.argv
+    #source = "./code/src/prob1.txt"
+    #target = "./code/binary/prob1"
     main(source, target)

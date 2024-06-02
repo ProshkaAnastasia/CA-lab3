@@ -1,0 +1,45 @@
+import contextlib
+import io
+import logging
+import os
+import tempfile
+
+from ISA_base import read_machine_code
+import pytest
+
+import Machine_base as machine
+import Translator_base as translator
+
+
+@pytest.mark.golden_test("golden_tests/*.yml")
+def test_translator_asm_and_machine(golden, caplog):
+    caplog.set_level(logging.DEBUG)
+
+    with tempfile.TemporaryDirectory() as tmpdirname:
+        source = os.path.join(tmpdirname, "source.txt")
+        input_stream = os.path.join(tmpdirname, "input.txt")
+        target = os.path.join(tmpdirname, "target")
+
+        with open(source, "w", encoding="utf-8") as file:
+            file.write(golden["in_source"])
+        with open(input_stream, "w", encoding="utf-8") as file:
+            file.write(golden["in_stdin"])
+
+        with contextlib.redirect_stdout(io.StringIO()) as stdout:
+            translator.main(source, target)
+            machine.main(target, input_stream)
+
+        data, code, start = read_machine_code(target)
+        result = {
+            "data": data,
+            "code": code,
+            "start": start
+        }
+
+        assert str(result) == golden.out["out_code"]
+        assert stdout.getvalue() == golden.out["out_stdout"]
+        if len(caplog.text) >= 124000:
+            lines = caplog.text.splitlines()[:1000]
+            assert "\n".join(lines) == golden.out["out_log"]
+        else:
+            assert caplog.text == golden.out["out_log"]

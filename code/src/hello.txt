@@ -1,0 +1,18 @@
+section .data
+hello: 
+    db 11, 'Hello world'
+
+section .text
+_start:
+    ld r0, hello
+    beq end
+    mov r1, hello
+    inc r1
+loop:
+    ld r2, r1
+    out r2, 0
+    inc r1
+    dec r0
+    bne loop
+end:
+    hlt
