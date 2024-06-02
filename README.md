@@ -361,6 +361,6 @@ hlt                 ; останов
 
 #### DataPath
 
-![Data Path](resources/DataPath.png)
+![Data Path](images/DataPath.png)
 
 <h2 id="тестирование">Тестирование</h2>
