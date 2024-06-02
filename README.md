@@ -357,10 +357,10 @@ hlt                 ; останов
 
 #### ControlUnit
 
-![Control Unit](images/control_unit.png)
+![Control Unit](images/ControlUnit.png)
 
 #### DataPath
 
-![Data Path](resources/data_path.png)
+![Data Path](resources/DataPath.png)
 
 <h2 id="тестирование">Тестирование</h2>
