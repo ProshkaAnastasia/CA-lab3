@@ -1,7 +1,7 @@
 from enum import Enum
 
-from ALU_base import ALU
-from ISA_base import registers
+from alu import ALU
+from isa import registers
 from WrongRegisterError import WrongRegisterError
 from WrongSelectorError import WrongSelectorError
 

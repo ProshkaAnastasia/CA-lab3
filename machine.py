@@ -1,7 +1,7 @@
 import sys
 
-from ControlUnit_base import ControlUnit
-from ISA_base import read_machine_code
+from control_unit import ControlUnit
+from isa import read_machine_code
 
 
 def read_from_input(data_input):

@@ -3,7 +3,7 @@ import struct
 import sys
 from enum import Enum
 
-from ISA_base import (
+from isa import (
     CODE_SIZE,
     DATA_SIZE,
     Addressing,

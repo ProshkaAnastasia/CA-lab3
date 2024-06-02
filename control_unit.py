@@ -1,5 +1,5 @@
-from DataPath_base import DataPath, Selector
-from ISA_base import Opcode
+from data_path import DataPath, Selector
+from isa import Opcode
 
 
 class ControlUnit:
