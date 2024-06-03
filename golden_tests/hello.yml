@@ -23,8 +23,64 @@ out_code: |-
 out_stdout: |
   Hello world
 out_log: |
-
-
-
-
-
+  INFO     logger:control_unit.py:49 | counter:      1 | IP:     1 | instruction: 0x10000000 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      2 | IP:     2 | instruction: 0x6024000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      3 | IP:     3 | instruction: 0x2804000  | opcode: Opcode.MOV | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      4 | IP:     4 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      5 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      6 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      7 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      8 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      8 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:      9 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     10 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     11 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     12 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     12 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     13 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     14 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     15 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     16 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     16 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     17 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     18 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     19 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     20 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     20 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     21 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     22 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     23 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     24 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     24 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     25 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     26 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     27 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     28 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     28 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     29 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     30 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     31 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     32 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     32 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     33 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     34 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     35 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     36 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     36 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     37 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     38 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     39 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     40 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     40 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     41 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     42 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     43 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     44 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     44 | IP:     4 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     45 | IP:     5 | instruction: 0x10801001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     46 | IP:     6 | instruction: 0x9808000  | opcode: Opcode.OUT | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     47 | IP:     7 | instruction: 0x4804000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     48 | IP:     8 | instruction: 0x5800000  | opcode: Opcode.DEC | PS: {'N': False, 'Z': True, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     49 | IP:     9 | instruction: 0x7010000  | opcode: Opcode.BNE | PS: {'N': False, 'Z': True, 'W': False, 'I': False}
+  INFO     logger:control_unit.py:49 | counter:     50 | IP:    10 | instruction: 0xb000000  | opcode: Opcode.HLT | PS: {'N': False, 'Z': True, 'W': False, 'I': False}
+  

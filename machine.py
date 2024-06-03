@@ -21,6 +21,6 @@ def main(source, data_input):
 if __name__ == "__main__":
     assert (
         len(sys.argv) == 3
-    ), "Wrong arguments: Machine_base.py <source_file> <input_file>"
+    ), "Wrong arguments: machine.py <source_file> <input_file>"
     _, source, data_input = sys.argv
     main(source, data_input)

@@ -68,5 +68,3 @@ loop4:
     bne loop4
 end:
     hlt
-
-

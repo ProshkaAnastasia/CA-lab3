@@ -1,9 +1,20 @@
 from data_path import DataPath, Selector
 from isa import Opcode
-
+import logging
 
 class ControlUnit:
     def __init__(self, data, code, in_buf, start):
+
+        self.logger = logging.getLogger('logger')
+        self.logger.setLevel(logging.INFO)
+
+        # Добавляем обработчик для записи в файл
+        file_handler = logging.FileHandler('log.txt')
+        formatter = logging.Formatter('%(levelname)s %(message)s')
+        file_handler.setFormatter(formatter)
+        self.logger.addHandler(file_handler)
+
+
         self.counter = 0
         self.CR = 0
         self.IP = start
@@ -12,9 +23,13 @@ class ControlUnit:
         self.active = False
         self.int_address = 0
         self.int_state = {"Z": False, "N": False, "W": False, "I": True}
+        self.tick_value = 0
 
     def signal_latch_ip(self):
         self.IP = self.data_path.alu.result
+
+    def tick(self):
+        self.tick_value += 1
 
     def signal_read_command(self):
         self.CR = self.code_memory[self.IP]
@@ -25,23 +40,11 @@ class ControlUnit:
             self.signal_read_command()
             self.decode_and_execute()
 
-    def print_state(self):
-        dr = "dr"
-        ar = "ar"
+    def log_state(self):
         ps = "ps"
-        r = "r"
         instr = self.CR
         opcode = Opcode(int(instr[0:8], 2))
-        print("=====================================================================")
-        print(f"| instruction: {opcode}")
-        print(f"| DR = {self.data_path.hidden_registers[dr]}")
-        print(f"| AR = {self.data_path.hidden_registers[ar]}")
-        print(f"| PS = {self.data_path.hidden_registers[ps]}")
-        print(f"| IP = {self.IP}")
-        print(f"| CR = {hex(int(self.CR, 2))}")
-        for i in range(4):
-            print(f"| R{i} = {self.data_path.registers[r + str(i)]}")
-        print("=====================================================================")
+        self.logger.info(f"| counter: {(self.counter):6} | IP: {(self.IP):5} | instruction: {(hex(int(self.CR, 2))):10} | opcode: {opcode:10} | PS: {self.data_path.hidden_registers[ps]}")
 
     def interrupt(self):
         for i in self.data_path.registers:
@@ -70,23 +73,30 @@ class ControlUnit:
             arg2 = "r" + str(int(instr[21:32], 2))
             self.data_path.execute_alu("skip_left", arg2)
             self.data_path.signal_latch_ar()
+            self.tick()
         else:
             arg2 = str(int(instr[21:32], 2))
             self.data_path.execute_alu("skip_right", "0", arg2)
             self.data_path.signal_latch_ar()
+            self.tick()
         if instr[9] == "1":
             self.data_path.signal_latch_dr(Selector.MEMORY)
             self.data_path.execute_alu("skip_right", "0", "dr")
             self.data_path.signal_latch_ar()
+            self.tick()
         match opcode:
             case Opcode.ST:
                 self.data_path.execute_alu("skip_left", arg1)
                 self.data_path.signal_latch_dr(Selector.ALU)
+                self.tick()
                 self.data_path.mem_write()
+                self.tick()
             case Opcode.LD:
                 self.data_path.mem_read()
+                self.tick()
                 self.data_path.execute_alu("skip_right", "0", "dr")
                 self.data_path.signal_latch_register(arg1)
+                self.tick()
         self.data_path.signal_latch_ps()
         self.check_interruption()
 
@@ -203,3 +213,4 @@ class ControlUnit:
             self.execute_addressed(opcode, instr)
         else:
             self.execute_non_addressed(opcode, instr)
+        self.log_state()

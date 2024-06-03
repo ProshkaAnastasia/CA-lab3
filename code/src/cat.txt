@@ -1,6 +1,6 @@
 section .data
 len:
-    db 1000
+    db 10
 section .text
 int:
     in r0, 1
