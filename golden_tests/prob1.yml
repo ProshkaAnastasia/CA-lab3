@@ -31,25 +31,25 @@ out_code: |-
 out_stdout: |
   233168
 out_log: |-
-  INFO     logger:control_unit.py:47 | counter:      1 | IP:     1 | instruction: 0x10000001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      2 | IP:     2 | instruction: 0x10000800 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      3 | IP:     3 | instruction: 0x10001002 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      4 | IP:     4 | instruction: 0x12c0c103 | opcode: Opcode.MOD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      5 | IP:     5 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      6 | IP:     6 | instruction: 0x12c0c105 | opcode: Opcode.MOD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      7 | IP:     7 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      7 | IP:     9 | instruction: 0x8024000  | opcode: Opcode.JMP | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      8 | IP:    10 | instruction: 0x4808000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      9 | IP:    11 | instruction: 0xcc08080  | opcode: Opcode.CMP | PS: {'N': True, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:      9 | IP:     3 | instruction: 0x700c000  | opcode: Opcode.BNE | PS: {'N': True, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     10 | IP:     4 | instruction: 0x12c0c103 | opcode: Opcode.MOD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     11 | IP:     5 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     12 | IP:     6 | instruction: 0x12c0c105 | opcode: Opcode.MOD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     13 | IP:     7 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     13 | IP:     9 | instruction: 0x8024000  | opcode: Opcode.JMP | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     14 | IP:    10 | instruction: 0x4808000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     15 | IP:    11 | instruction: 0xcc08080  | opcode: Opcode.CMP | PS: {'N': True, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     15 | IP:     3 | instruction: 0x700c000  | opcode: Opcode.BNE | PS: {'N': True, 'Z': False, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     16 | IP:     4 | instruction: 0x12c0c103 | opcode: Opcode.MOD | PS: {'N': False, 'Z': True, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     16 | IP:     8 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': True, 'W': False, 'I': False}
-  INFO     logger:control_unit.py:47 | counter:     17 | IP:     9 | instruction: 0x3e00002  | opcode: Opcode.ADD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      1 | IP:     1 | instruction: 0x10000001 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      2 | IP:     2 | instruction: 0x10000800 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      3 | IP:     3 | instruction: 0x10001002 | opcode: Opcode.LD  | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      4 | IP:     4 | instruction: 0x12c0c103 | opcode: Opcode.MOD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      5 | IP:     5 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      6 | IP:     6 | instruction: 0x12c0c105 | opcode: Opcode.MOD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      7 | IP:     7 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      7 | IP:     9 | instruction: 0x8024000  | opcode: Opcode.JMP | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      8 | IP:    10 | instruction: 0x4808000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      9 | IP:    11 | instruction: 0xcc08080  | opcode: Opcode.CMP | PS: {'N': True, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:      9 | IP:     3 | instruction: 0x700c000  | opcode: Opcode.BNE | PS: {'N': True, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     10 | IP:     4 | instruction: 0x12c0c103 | opcode: Opcode.MOD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     11 | IP:     5 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     12 | IP:     6 | instruction: 0x12c0c105 | opcode: Opcode.MOD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     13 | IP:     7 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     13 | IP:     9 | instruction: 0x8024000  | opcode: Opcode.JMP | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     14 | IP:    10 | instruction: 0x4808000  | opcode: Opcode.INC | PS: {'N': False, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     15 | IP:    11 | instruction: 0xcc08080  | opcode: Opcode.CMP | PS: {'N': True, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     15 | IP:     3 | instruction: 0x700c000  | opcode: Opcode.BNE | PS: {'N': True, 'Z': False, 'W': False, 'I': False}
+  INFO | | counter:     16 | IP:     4 | instruction: 0x12c0c103 | opcode: Opcode.MOD | PS: {'N': False, 'Z': True, 'W': False, 'I': False}
+  INFO | | counter:     16 | IP:     8 | instruction: 0x6020000  | opcode: Opcode.BEQ | PS: {'N': False, 'Z': True, 'W': False, 'I': False}
+  INFO | | counter:     17 | IP:     9 | instruction: 0x3e00002  | opcode: Opcode.ADD | PS: {'N': False, 'Z': False, 'W': False, 'I': False}

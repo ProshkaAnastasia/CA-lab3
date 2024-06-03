@@ -397,9 +397,9 @@ hlt                 ; останов
 
 | ФИО                            | алг   | LoC | code байт | code инстр. | инстр. | такт. | вариант |
 |--------------------------------|-------|-----|-----------|-------------|--------|-------|---------|
-|Пронина Анастасия Ильинична     | hello | 15  |  36        |      9      |   41   | 141   | asm \| risc \| harv \| hw \| instr \| binary \| trap \| port \| pstr \| prob1 \| - |
-|Пронина Анастасия Ильинична     | cat   | 15   |    36      |      9      |   19   | 56    | asm \| risc \| harv \| hw \| instr \| binary \| trap \| port \| pstr \| prob1 \| - |
-|Пронина Анастасия Ильинична     | hello_user_name | 184 | |      46     |   238  | 824   | asm \| risc \| harv \| hw \| instr \| binary \| trap \| port \| pstr \| prob1 \| - |
+|Пронина Анастасия Ильинична     | hello | 15  |  36        |      9      |   60   | 141   | asm \| risc \| harv \| hw \| instr \| binary \| trap \| port \| pstr \| prob1 \| - |
+|Пронина Анастасия Ильинична     | cat   | 15   |    36      |      9      |   231   | 56    | asm \| risc \| harv \| hw \| instr \| binary \| trap \| port \| pstr \| prob1 \| - |
+|Пронина Анастасия Ильинична     | hello_user_name | 184 | |      46     |   278  | 824   | asm \| risc \| harv \| hw \| instr \| binary \| trap \| port \| pstr \| prob1 \| - |
 |Пронина Анастасия Ильинична     | prob1 | 26  |  56       |      14     |   13021| 45696 | asm \| risc \| harv \| hw \| instr \| binary \| trap \| port \| pstr \| prob1 \| - |
 
 </div>
