@@ -1,19 +1,19 @@
+import logging
+
 from data_path import DataPath, Selector
 from isa import Opcode
-import logging
+
 
 class ControlUnit:
     def __init__(self, data, code, in_buf, start):
-
-        self.logger = logging.getLogger('logger')
+        self.logger = logging.getLogger("logger")
         self.logger.setLevel(logging.INFO)
 
         # Добавляем обработчик для записи в файл
-        file_handler = logging.FileHandler('log.txt')
-        formatter = logging.Formatter('%(levelname)s %(message)s')
+        file_handler = logging.FileHandler("log.txt")
+        formatter = logging.Formatter("%(levelname)s %(message)s")
         file_handler.setFormatter(formatter)
         self.logger.addHandler(file_handler)
-
 
         self.counter = 0
         self.CR = 0
@@ -44,7 +44,9 @@ class ControlUnit:
         ps = "ps"
         instr = self.CR
         opcode = Opcode(int(instr[0:8], 2))
-        self.logger.info(f"| counter: {(self.counter):6} | IP: {(self.IP):5} | instruction: {(hex(int(self.CR, 2))):10} | opcode: {opcode:10} | PS: {self.data_path.hidden_registers[ps]}")
+        self.logger.info(
+            f"| counter: {(self.counter):6} | IP: {(self.IP):5} | instruction: {(hex(int(self.CR, 2))):10} | opcode: {opcode:10} | PS: {self.data_path.hidden_registers[ps]}"
+        )
 
     def interrupt(self):
         for i in self.data_path.registers:
