@@ -13,7 +13,7 @@ from isa import read_machine_code
 
 @pytest.mark.golden_test("golden_tests/*.yml")
 def test_translator_asm_and_machine(golden, caplog):
-    caplog.set_level(logging.DEBUG)
+    caplog.set_level(logging.INFO)
 
     with tempfile.TemporaryDirectory() as tmpdirname:
         source = os.path.join(tmpdirname, "source.txt")
