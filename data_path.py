@@ -16,12 +16,19 @@ class Selector(Enum):
 
 class DataPath:
     def __init__(self, data, in_buf):
-        self.registers = {"r" + str(i): 0 for i in range(32)}
+        self.registers = {"r" + str(i): 0 for i in range(4)}
         self.hidden_registers = {
             "dr": 0,
             "ar": 0,
             "sp": 0,
-            "ps": {"N": False, "Z": False, "W": False, "I": False},
+            "ps": {
+                "N": False,
+                "Z": False,
+                "W": False,
+                "I": False,
+                "IA": True,
+                "E": False,
+            },
         }
         self.data_memory = data
         self.alu = ALU()
@@ -39,10 +46,15 @@ class DataPath:
         self.signal_latch_dr(Selector.MEMORY)
 
     def input(self, port):
-        self.hidden_registers["dr"] = ord(self.in_buffer[port].pop(0)[1])
+        char = ord(self.in_buffer[port].pop(0)[1])
+        self.hidden_registers["dr"] = char
+        if char == 0:
+            self.hidden_registers["ps"]["E"] = True
 
     def output(self, port):
-        self.out_buffer[port].append(chr(self.hidden_registers["dr"]))
+        char = chr(self.hidden_registers["dr"])
+        if char != "\0":
+            self.out_buffer[port].append(char)
 
     def print(self, arg):
         num = str(self.registers[arg])

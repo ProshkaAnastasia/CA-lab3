@@ -28,6 +28,11 @@ class Opcode(Enum):
     MOD = 18
     DIV = 19
     PRINTI = 20
+    VEC = 0
+    CALL = 21
+    RET = 22
+    JNE = 23
+    NOP = 24
 
 
 class Addressing(Enum):
@@ -75,6 +80,14 @@ class ArgType(str, Enum):
 
 
 instructions = {
+    "vec": {
+        "type": Opcode.VEC,
+        "args": 1,
+        "arg1": [ArgType.CODE_ADDRESS, ArgType.CODE_LABEL],
+        "log": lambda addr,
+        code,
+        args: f"{hex(addr):5}   --   {code}   --   int_vector: handle_addr = {args[0]}",
+    },
     "ld": {
         "type": Opcode.LD,
         "args": 2,
@@ -82,13 +95,7 @@ instructions = {
         "arg2": [ArgType.DATA_ADDRESS, ArgType.DATA_LABEL, ArgType.REGISTER],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- ld:  {args[0]} <- {args[1]}",
-    },
-    "ldr": {
-        "type": Opcode.LD,
-        "args": 2,
-        "arg1": [ArgType.REGISTER],
-        "arg2": [ArgType.REGISTER],
+        args: f"{hex(addr):5}   --   {code}   --   ld:  {args[0]} <- {args[1]}",
     },
     "st": {
         "type": Opcode.ST,
@@ -97,13 +104,7 @@ instructions = {
         "arg2": [ArgType.DATA_ADDRESS, ArgType.DATA_LABEL, ArgType.REGISTER],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- st:  {args[0]} -> {args[1]}",
-    },
-    "str": {
-        "type": Opcode.ST,
-        "args": 2,
-        "arg1": [ArgType.REGISTER],
-        "arg2": [ArgType.REGISTER],
+        args: f"{hex(addr):5}   --   {code}   --   st:  {args[0]} -> {args[1]}",
     },
     "add": {
         "type": Opcode.ADD,
@@ -113,7 +114,7 @@ instructions = {
         "arg3": [ArgType.REGISTER],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- add: {args[0]} <- {args[1]} + {args[2]}",
+        args: f"{hex(addr):5}   --   {code}   --   add: {args[0]} <- {args[1]} + {args[2]}",
     },
     "mod": {
         "type": Opcode.MOD,
@@ -123,7 +124,7 @@ instructions = {
         "arg3": [ArgType.REGISTER, ArgType.CONSTANT],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- mod: {args[0]} <- {args[1]} % {args[2]}",
+        args: f"{hex(addr):5}   --   {code}   --   mod: {args[0]} <- {args[1]} % {args[2]}",
     },
     "div": {
         "type": Opcode.DIV,
@@ -133,7 +134,7 @@ instructions = {
         "arg3": [ArgType.REGISTER, ArgType.CONSTANT],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- div: {args[0]} <- {args[1]} // {args[2]}",
+        args: f"{hex(addr):5}   --   {code}   --   div: {args[0]} <- {args[1]} // {args[2]}",
     },
     "inc": {
         "type": Opcode.INC,
@@ -141,7 +142,7 @@ instructions = {
         "arg1": [ArgType.REGISTER],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- inc: {args[0]} <- {args[0]} + 1",
+        args: f"{hex(addr):5}   --   {code}   --   inc: {args[0]} <- {args[0]} + 1",
     },
     "dec": {
         "type": Opcode.DEC,
@@ -149,7 +150,7 @@ instructions = {
         "arg1": [ArgType.REGISTER],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- dec: {args[0]} <- {args[0]} - 1",
+        args: f"{hex(addr):5}   --   {code}   --   dec: {args[0]} <- {args[0]} - 1",
     },
     "beq": {
         "type": Opcode.BEQ,
@@ -157,7 +158,7 @@ instructions = {
         "arg1": [ArgType.CODE_ADDRESS, ArgType.CODE_LABEL],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- beq: if Z ip <- {args[0]}",
+        args: f"{hex(addr):5}   --   {code}   --   beq: if Z ip <- {args[0]}",
     },
     "bne": {
         "type": Opcode.BNE,
@@ -165,7 +166,7 @@ instructions = {
         "arg1": [ArgType.CODE_ADDRESS, ArgType.CODE_LABEL],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- bne: if !Z ip <- {args[0]}",
+        args: f"{hex(addr):5}   --   {code}   --   bne: if !Z ip <- {args[0]}",
     },
     "out": {
         "type": Opcode.OUT,
@@ -174,7 +175,7 @@ instructions = {
         "arg2": [ArgType.CONSTANT],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- out: {args[0]} output {int(args[1], 0)}",
+        args: f"{hex(addr):5}   --   {code}   --   out: {args[0]} output {int(args[1], 0)}",
     },
     "in": {
         "type": Opcode.IN,
@@ -183,18 +184,20 @@ instructions = {
         "arg2": [ArgType.CONSTANT],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- in:  {args[0]} input {int(args[1], 0)}",
+        args: f"{hex(addr):5}   --   {code}   --   in:  {args[0]} input {int(args[1], 0)}",
     },
     "printi": {
         "type": Opcode.PRINTI,
         "args": 1,
         "arg1": [ArgType.REGISTER],
-        "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- print int {args[0]}",
+        "log": lambda addr,
+        code,
+        args: f"{hex(addr):5}   --   {code}   --   print int {args[0]}",
     },
     "hlt": {
         "type": Opcode.HLT,
         "args": 0,
-        "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- hlt",
+        "log": lambda addr, code, args: f"{hex(addr):5}   --   {code}   --   hlt",
     },
     "mov": {
         "type": Opcode.MOV,
@@ -208,7 +211,7 @@ instructions = {
         ],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- mov: {args[0]} <- {args[1]}",
+        args: f"{hex(addr):5}   --   {code}   --   mov: {args[0]} <- {args[1]}",
     },
     "cmp": {
         "type": Opcode.CMP,
@@ -217,7 +220,7 @@ instructions = {
         "arg2": [ArgType.REGISTER, ArgType.CONSTANT],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- cmp: ps <- {args[0]} - {args[1]}",
+        args: f"{hex(addr):5}   --   {code}   --   cmp: ps <- {args[0]} - {args[1]}",
     },
     "jmp": {
         "type": Opcode.JMP,
@@ -225,7 +228,15 @@ instructions = {
         "arg1": [ArgType.CODE_ADDRESS, ArgType.CODE_LABEL],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- jmp: ip <- {args[0]}",
+        args: f"{hex(addr):5}   --   {code}   --   jmp: ip <- {args[0]}",
+    },
+    "jne": {
+        "type": Opcode.JNE,
+        "args": 1,
+        "arg1": [ArgType.CODE_ADDRESS, ArgType.CODE_LABEL],
+        "log": lambda addr,
+        code,
+        args: f"{hex(addr):5}   --   {code}   --   je: if !E ip <- {args[0]}",
     },
     "push": {
         "type": Opcode.PUSH,
@@ -233,7 +244,7 @@ instructions = {
         "arg1": [ArgType.REGISTER, ArgType.CONSTANT],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- push: stack <- {args[0]}",
+        args: f"{hex(addr):5}   --   {code}   --   push: stack <- {args[0]}",
     },
     "pop": {
         "type": Opcode.POP,
@@ -241,17 +252,35 @@ instructions = {
         "arg1": [ArgType.REGISTER, ArgType.CONSTANT],
         "log": lambda addr,
         code,
-        args: f"{hex(addr)} -- {code} -- push: {args[0]} <- stack",
+        args: f"{hex(addr):5}   --   {code}   --   push: {args[0]} <- stack",
     },
     "int": {
         "type": Opcode.INT,
         "args": 0,
-        "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- int",
+        "log": lambda addr, code, args: f"{hex(addr):5}   --   {code}   --   int",
     },
     "iret": {
         "type": Opcode.IRET,
         "args": 0,
-        "log": lambda addr, code, args: f"{hex(addr)} -- {code} -- iret",
+        "log": lambda addr, code, args: f"{hex(addr):5}   --   {code}   --   iret",
+    },
+    "call": {
+        "type": Opcode.CALL,
+        "args": 1,
+        "arg1": [ArgType.CODE_ADDRESS, ArgType.CODE_LABEL],
+        "log": lambda addr,
+        code,
+        args: f"{hex(addr):5}   --   {code}   --   call {args[0]}",
+    },
+    "ret": {
+        "type": Opcode.RET,
+        "args": 0,
+        "log": lambda addr, code, args: f"{hex(addr):5}   --   {code}   --   ret",
+    },
+    "nop": {
+        "type": Opcode.NOP,
+        "args": 0,
+        "log": lambda addr, code, args: f"{hex(addr):5}   --   {code}   --   nop",
     },
 }
 

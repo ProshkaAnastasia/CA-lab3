@@ -207,6 +207,10 @@ class Translator:
             "BBBB", word_bytes[0], word_bytes[1], word_bytes[2], word_bytes[3]
         )
 
+    def process_int_vector(self, command):
+        address = int(command["args"][0], 0)
+        return struct.pack(">I", address)
+
     def translate_stage_3(self):
         logging = ""
         binary = struct.pack(">I", len(self.data)) + struct.pack(">I", len(self.code))
@@ -216,7 +220,9 @@ class Translator:
         for command in self.code:
             addressing = command["opcode"] in ["ld", "st"]
             command_type: Opcode = instructions[command["opcode"]]["type"]
-            if addressing:
+            if command_type == Opcode.VEC:
+                result = self.process_int_vector(command)
+            elif addressing:
                 result = self.process_addressing(command, command_type)
             else:
                 result = self.process_non_addressing(command, command_type)

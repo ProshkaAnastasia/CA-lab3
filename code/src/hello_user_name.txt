@@ -11,6 +11,34 @@ name:
     db 0
 
 section .text
+vec int                 ; обработчик прерывания
+_start:
+    mov r0, greeting    ; загружаем адрес запроса имени
+    call print          ; печатаем запрос имени пользователя
+input:
+    nop                 ; ожидаем прерывания
+    jne input           ;
+    mov r0, hello       ; загружаем адрес приветствия
+    call print          ; печатаем приветствие
+    mov r0, name        ; загружаем адрес имени пользователя
+    call print          ; печатаем имя пользователя
+    mov r0, exclamation ; загружаем адрес !
+    call print          ; печатаем !
+    hlt                 ; останов
+
+print:
+    ld r1, r0           ; загружаем длину строки
+    beq end             ; если длина равна 0, идем дальше
+    inc r0
+loop:
+    ld r2, r0           ; получаем значение символа по текущему адресу
+    out r2, 0           ; выводим текущий символ
+    inc r0              ; увеличиваем адрес
+    dec r1              ; уменьшаем счетчик длины
+    bne loop
+end:
+    ret
+
 int:
     mov r0, name        ; адрес начала строки, здесь лежит длина
     inc r0              ; получаем адрес первого символа строки
@@ -21,50 +49,3 @@ int:
     st r2, r0           ; сохраняем введенный символ
     st r1, name         ; сохраняем новую длину
     iret                ; выходим из прерывания
-
-_start:
-    ld r0, greeting
-    beq next1
-    mov r1, greeting
-    inc r1
-loop1:
-    ld r2, r1
-    out r2, 0
-    inc r1
-    dec r0
-    bne loop1
-next1:
-    ld r0, hello
-    beq next2
-    mov r1, hello
-    inc r1
-loop2:
-    ld r2, r1
-    out r2, 0
-    inc r1
-    dec r0
-    bne loop2
-next2:
-    ld r0, name
-    beq next3
-    mov r1, name
-    inc r1
-loop3:
-    ld r2, r1
-    out r2, 0
-    inc r1
-    dec r0
-    bne loop3
-next3:
-    ld r0, exclamation
-    beq end
-    mov r1, exclamation
-    inc r1
-loop4:
-    ld r2, r1
-    out r2, 0
-    inc r1
-    dec r0
-    bne loop4
-end:
-    hlt

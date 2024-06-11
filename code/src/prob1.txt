@@ -6,6 +6,7 @@ sum:
 current:
     db 1
 section .text
+vec int
 _start:
     ld r0, sum
     ld r1, max
@@ -24,6 +25,9 @@ next:
     bne loop
     printi r0
     hlt
+int:
+    in r0, 1
+    iret
 
 
 

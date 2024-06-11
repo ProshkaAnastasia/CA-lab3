@@ -30,12 +30,14 @@ def test_translator_asm_and_machine(golden, caplog):
             machine.main(target, input_stream)
 
         data, code, start = read_machine_code(target)
-        result = {"data": data, "code": code, "start": start}
 
-        assert str(result) == golden.out["out_code"]
+        assert str(data) == golden.out["out_data"]
+        assert str(code) == golden.out["out_code"]
+        assert str(start) == golden.out["out_start"]
         assert stdout.getvalue() == golden.out["out_stdout"]
+
         if len(caplog.text) >= 124000:
-            lines = caplog.text.splitlines()[:22]
+            lines = caplog.text.splitlines()[:1000]
             assert "\n".join(lines) == golden.out["out_log"]
         else:
             assert caplog.text == golden.out["out_log"]

@@ -1,3 +1,4 @@
+import re
 import sys
 
 from control_unit import ControlUnit
@@ -6,8 +7,17 @@ from isa import read_machine_code
 
 def read_from_input(data_input):
     with open(data_input, encoding="utf-8") as file:
-        data = file.read()
-    return {1: [(1, data[i]) for i in range(len(data))]}
+        data = file.readlines()
+    result = {1: []}
+    for line in data:
+        line = re.sub(r"\(|\)", "", line)
+        symbol = re.search(r"(?<=').(?=')", line).group()
+        line = re.sub(r"\s", "", line)
+        step = line.split(",")[0]
+        result[1].append((int(step), symbol))
+    last_step = 1 if len(result[1]) == 0 else int(result[1][len(result[1]) - 1][0])
+    result[1].append((last_step + 1000, "\0"))
+    return result
 
 
 def main(source, data_input):
